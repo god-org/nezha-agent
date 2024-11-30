@@ -148,7 +148,7 @@ jobs:
       - name: Run go mod tidy
         run: |
           go version
-          go mod tidy
+          go mod tidy -v
           echo "VERSION_NO_V=${VERSION#v}" >> $GITHUB_ENV
 
       - name: Build main-next releases
@@ -159,7 +159,7 @@ jobs:
           goarch: ${{ matrix.goarch }}
           goversion: ${{ env.GO_VERSION }}
           build_flags: -v -trimpath
-          ldflags: -X main.version=${{ env.VERSION_NO_V }} -X main.arch=${{ matrix.goarch }} -s -w -buildid=
+          ldflags: -X github.com/nezhahq/agent/pkg/monitor.Version=${{ env.VERSION_NO_V }} -X main.arch=${{ matrix.goarch }} -s -w -buildid=
           project_path: ./cmd/agent
           binary_name: ${{ github.event.repository.name }}
           md5sum: false
